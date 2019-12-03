@@ -5,11 +5,6 @@
 
 Welcome to Cisco NSO documentation!
 ===================================
-.. literalinclude:: source_code/maagic_interfaces.py
-   :language: python
-   :emphasize-lines: 4-5
-   :linenos:
-
 
 Creating and configuring network services is a complex task that often requires multiple configuration changes to all devices participating in the service.
 
@@ -31,38 +26,99 @@ The key features of NSO that comes into play includes:
 
 
 Supported Network Operating Systems:
-------------------------------------
+____________________________________
 
-* Arista EOS
 * Cisco IOS
 * Cisco IOS-XR
 * Cisco NX-OS
 * Juniper JunOS
+* Arista EOS
+* Over X Vendors Supported
 
-Extras
-______
+Auto-Parsed Configuration 
+=========================
 
-In addition to the core drivers napalm also supports community driven drivers. You can find more information about them here: 
+Are you tired of having to create and maintain regular expressions to handle unstructured data in configuration or normalizing data between platforms to make a consistent data model?
 
-Selecting the right driver
---------------------------
+Does this look like fun? 
 
-You can select the driver you need by doing the following:
+.. code-block:: bash
 
-.. code-block:: python
+    \D+\d+((/\d+)+(\.\d+)?)?
 
-    with ncs.maapi.single_write_trans('admin', 'python') as t:
-        root = ncs.maagic.get_root(t)
-        device = root.devices.device["ios-netsim-0"].config
-        for interface in device.interface["Loopback"]:
-            print("This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}".format(interface.name, interface.description, interface.ip.address.primary.address, interface.ip.address.primary.mask))
-    ...
-    This device has interface Loopback 0 with a description of None, and an IP address and mask of None None
-    This device has interface Loopback 100 with a description of Mgmt IP from NSO, and an IP address and mask of 10.3.3.3 255.255.255.0
-    This device has interface Loopback 200 with a description of Also Modified By User, and an IP address and mask of 10.2.2.5 255.255.255.0
+Or would you rather have a network automation easy button? Cisco NSO not only **parses all your configuration** into a standard data model, but provides a database of that configuration which is API enabled. It then will keep track of every network change it makes and calculate any rollback needed, no matter how complicated or across many devices. 
 
-Documentation
-=============
+
+It also provides advanced features such as network service orchestration, so you can define your network into managed services and deploy or remove them as needed. It is completely customizable, according to your network's needs. 
+
+
+Here is an example of the software's built-in CLI, showing a dummy device's configuration, and its parsed values in the Cisco NSO database:
+
+.. code-block:: bash
+
+    admin@ncs# show running-config devices device ios-netsim-0 config ios:router
+   devices device ios-netsim-0
+    config
+     ios:router bgp 64512
+      aggregate-address 10.10.10.1 255.255.255.251
+    !
+    !
+    !
+    admin@ncs# show running-config devices device ios-netsim-0 config ios:router  | display json
+    {
+    "data": {
+        "tailf-ncs:devices": {
+        "device": [
+            {
+            "name": "ios-netsim-0",
+            "config": {
+                "tailf-ned-cisco-ios:router": {
+                "bgp": [
+                    {
+                    "as-no": 64512,
+                    "aggregate-address": {
+                        "address": "10.10.10.1",
+                        "mask": "255.255.255.251"
+                    }
+                    }
+                    ]       
+                }
+            }
+            }
+        ]
+        }
+      }
+    }
+    admin@ncs# show running-config devices device ios-netsim-0 config ios:router | display xml
+    <config xmlns="http://tail-f.com/ns/config/1.0">
+    <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+        <name>ios-netsim-0</name>
+        <config>
+        <router xmlns="urn:ios">
+            <bgp>
+            <as-no>64512</as-no>
+            <aggregate-address>
+                <address>10.10.10.1</address>
+                <mask>255.255.255.251</mask>
+            </aggregate-address>
+            </bgp>
+        </router>
+        </config>
+    </device>
+    </devices>
+    </config>
+
+Robust Model-Driven APIs
+========================
+
+Lorem Ipsem
+
+NetDevOps-ify Your Existing Brownfield Network
+----------------------------------------------
+
+Access or change any device's pre-parsed configuration remotely using the RESTful API:
+
 .. code-block:: bash
 
     curl -X GET \
@@ -149,9 +205,28 @@ Documentation
                 ]
             },
 
+A Powerful Python API
+---------------------
+
+
+You can Create, Read, Update or Delete any configuration on any device Cisco NSO manages. For example, this script uses the Cisco IOS data model on a legacy CLI device and prints the precise data requested, no RegEx needed: 
+
+.. code-block:: python
+
+    with ncs.maapi.single_write_trans('admin', 'python') as t:
+        root = ncs.maagic.get_root(t)
+        device = root.devices.device["ios-netsim-0"].config
+        for interface in device.interface["Loopback"]:
+            print("This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}".format(interface.name, interface.description, interface.ip.address.primary.address, interface.ip.address.primary.mask))
+    ...
+    This device has interface Loopback 0 with a description of None, and an IP address and mask of None None
+    This device has interface Loopback 100 with a description of Mgmt IP from NSO, and an IP address and mask of 10.3.3.3 255.255.255.0
+    This device has interface Loopback 200 with a description of Also Modified By User, and an IP address and mask of 10.2.2.5 255.255.255.0
+
 
 .. toctree::
    :maxdepth: 2
 
    installation/index
    quick_start/index
+   python_api/index

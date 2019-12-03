@@ -1,0 +1,7 @@
+~$ mkdir nso-quick-start
+~$ cd nso-quick-start/
+nso-quick-start$ ncs-netsim create-network $NCS_DIR/packages/neds/cisco-ios 1 ios-netsim-0
+cisco-ios-cli-3.0/   cisco-ios-cli-3.8/   cisco-iosxr-cli-3.0/ cisco-iosxr-cli-3.5/
+nso-quick-start$ ncs-netsim create-network /Users/jabelk/nso-5.2/packages/neds/cisco-ios-cli-3.8 1 ios-netsim-
+DEVICE ios-netsim-0 CREATED
+nso-quick-start$

@@ -83,18 +83,14 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#full-installation">Full installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#os-package-managers">OS Package Managers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#freebsd">FreeBSD</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-netsims">Creating Netsims</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="1.html">napalm-ios dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="2.html">napalm-ios dependencies</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/index.html">Python API</a></li>
 </ul>
 
             
@@ -161,39 +157,24 @@
             
   <div class="section" id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="full-installation">
-<h2>Full installation<a class="headerlink" href="#full-installation" title="Permalink to this headline">¶</a></h2>
-<p>You can install napalm with pip:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="section" id="creating-netsims">
+<h2>Creating Netsims<a class="headerlink" href="#creating-netsims" title="Permalink to this headline">¶</a></h2>
+<p>Lorem ipsum:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
-<span class="hll">    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
-</span><span class="hll">        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
-</span></pre></div>
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>~$ mkdir nso-quick-start
+~$ <span class="nb">cd</span> nso-quick-start/
+nso-quick-start$ ncs-netsim create-network <span class="nv">$NCS_DIR</span>/packages/neds/cisco-ios <span class="m">1</span> ios-netsim-0
+cisco-ios-cli-3.0/   cisco-ios-cli-3.8/   cisco-iosxr-cli-3.0/ cisco-iosxr-cli-3.5/
+nso-quick-start$ ncs-netsim create-network /Users/jabelk/nso-5.2/packages/neds/cisco-ios-cli-3.8 <span class="m">1</span> ios-netsim-
+DEVICE ios-netsim-0 CREATED
+nso-quick-start$
+</pre></div>
 </td></tr></table></div>
-<p>That will install all the drivers currently available.</p>
-</div>
-<div class="section" id="os-package-managers">
-<h2>OS Package Managers<a class="headerlink" href="#os-package-managers" title="Permalink to this headline">¶</a></h2>
-<p>Some execution environments offer napalm through a system-level package manager. Installing with pip outside of a user profile or virtualenv/venv is inadvisable in these cases.</p>
-<div class="section" id="freebsd">
-<h3>FreeBSD<a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pkg install net-mgmt/py-napalm
-</pre></div>
-</div>
-<p>This will install napalm and all drivers and dependencies for the default version(s) of python. To install for a specific version, python X.Y, if supported:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pkg install pyXY-napalm
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Although dependencies for the transport libraries are solved by <code class="docutils literal notranslate"><span class="pre">pip</span></code>, on some operating systems there are some particular requirements:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="1.html">napalm-ios dependencies</a><ul>

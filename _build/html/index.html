@@ -82,6 +82,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_api/index.html">Python API</a></li>
 </ul>
 
             
@@ -148,17 +149,6 @@
             
   <div class="section" id="welcome-to-cisco-nso-documentation">
 <h1>Welcome to Cisco NSO documentation!<a class="headerlink" href="#welcome-to-cisco-nso-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
-<span class="hll">    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
-</span><span class="hll">        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
-</span></pre></div>
-</td></tr></table></div>
 <p>Creating and configuring network services is a complex task that often requires multiple configuration changes to all devices participating in the service.</p>
 <p>Additionally changes generally need to be made concurrently across all devices with the changes being either completely successful or rolled back to the starting configuration.</p>
 <p>And configuration need to be kept in sync across the system and the network devices. NSO approaches these challenges by acting as interface between people or software that want to configure the network, and the devices in the network.
@@ -172,35 +162,84 @@ The key features of NSO that comes into play includes:</p>
 <div class="section" id="supported-network-operating-systems">
 <h2>Supported Network Operating Systems:<a class="headerlink" href="#supported-network-operating-systems" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Arista EOS</p></li>
 <li><p>Cisco IOS</p></li>
 <li><p>Cisco IOS-XR</p></li>
 <li><p>Cisco NX-OS</p></li>
 <li><p>Juniper JunOS</p></li>
+<li><p>Arista EOS</p></li>
+<li><p>Over X Vendors Supported</p></li>
 </ul>
-<div class="section" id="extras">
-<h3>Extras<a class="headerlink" href="#extras" title="Permalink to this headline">¶</a></h3>
-<p>In addition to the core drivers napalm also supports community driven drivers. You can find more information about them here:</p>
 </div>
 </div>
-<div class="section" id="selecting-the-right-driver">
-<h2>Selecting the right driver<a class="headerlink" href="#selecting-the-right-driver" title="Permalink to this headline">¶</a></h2>
-<p>You can select the driver you need by doing the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
-    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
-<span class="o">...</span>
-<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">0</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="bp">None</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="bp">None</span> <span class="bp">None</span>
-<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">100</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Mgmt</span> <span class="n">IP</span> <span class="kn">from</span> <span class="nn">NSO</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.3</span><span class="o">.</span><span class="mf">3.3</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
-<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">200</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Also</span> <span class="n">Modified</span> <span class="n">By</span> <span class="n">User</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.2</span><span class="o">.</span><span class="mf">2.5</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
+<div class="section" id="auto-parsed-configuration">
+<h1>Auto-Parsed Configuration<a class="headerlink" href="#auto-parsed-configuration" title="Permalink to this headline">¶</a></h1>
+<p>Are you tired of having to create and maintain regular expressions to handle unstructured data in configuration or normalizing data between platforms to make a consistent data model?</p>
+<p>Does this look like fun?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="se">\D</span>+<span class="se">\d</span>+<span class="o">((</span>/<span class="se">\d</span>+<span class="o">)</span>+<span class="o">(</span><span class="se">\.\d</span>+<span class="o">)</span>?<span class="o">)</span>?
+</pre></div>
+</div>
+<p>Or would you rather have a network automation easy button? Cisco NSO not only <strong>parses all your configuration</strong> into a standard data model, but provides a database of that configuration which is API enabled. It then will keep track of every network change it makes and calculate any rollback needed, no matter how complicated or across many devices.</p>
+<p>It also provides advanced features such as network service orchestration, so you can define your network into managed services and deploy or remove them as needed. It is completely customizable, according to your network’s needs.</p>
+<p>Here is an example of the software’s built-in CLI, showing a dummy device’s configuration, and its parsed values in the Cisco NSO database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> admin@ncs# show running-config devices device ios-netsim-0 config ios:router
+devices device ios-netsim-0
+ config
+  ios:router bgp <span class="m">64512</span>
+   aggregate-address <span class="m">10</span>.10.10.1 <span class="m">255</span>.255.255.251
+ !
+ !
+ !
+ admin@ncs# show running-config devices device ios-netsim-0 config ios:router  <span class="p">|</span> display json
+ <span class="o">{</span>
+ <span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+     <span class="s2">&quot;tailf-ncs:devices&quot;</span>: <span class="o">{</span>
+     <span class="s2">&quot;device&quot;</span>: <span class="o">[</span>
+         <span class="o">{</span>
+         <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;ios-netsim-0&quot;</span>,
+         <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
+             <span class="s2">&quot;tailf-ned-cisco-ios:router&quot;</span>: <span class="o">{</span>
+             <span class="s2">&quot;bgp&quot;</span>: <span class="o">[</span>
+                 <span class="o">{</span>
+                 <span class="s2">&quot;as-no&quot;</span>: <span class="m">64512</span>,
+                 <span class="s2">&quot;aggregate-address&quot;</span>: <span class="o">{</span>
+                     <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;10.10.10.1&quot;</span>,
+                     <span class="s2">&quot;mask&quot;</span>: <span class="s2">&quot;255.255.255.251&quot;</span>
+                 <span class="o">}</span>
+                 <span class="o">}</span>
+                 <span class="o">]</span>
+             <span class="o">}</span>
+         <span class="o">}</span>
+         <span class="o">}</span>
+     <span class="o">]</span>
+     <span class="o">}</span>
+   <span class="o">}</span>
+ <span class="o">}</span>
+ admin@ncs# show running-config devices device ios-netsim-0 config ios:router <span class="p">|</span> display xml
+ &lt;config <span class="nv">xmlns</span><span class="o">=</span><span class="s2">&quot;http://tail-f.com/ns/config/1.0&quot;</span>&gt;
+ &lt;devices <span class="nv">xmlns</span><span class="o">=</span><span class="s2">&quot;http://tail-f.com/ns/ncs&quot;</span>&gt;
+ &lt;device&gt;
+     &lt;name&gt;ios-netsim-0&lt;/name&gt;
+     &lt;config&gt;
+     &lt;router <span class="nv">xmlns</span><span class="o">=</span><span class="s2">&quot;urn:ios&quot;</span>&gt;
+         &lt;bgp&gt;
+         &lt;as-no&gt;64512&lt;/as-no&gt;
+         &lt;aggregate-address&gt;
+             &lt;address&gt;10.10.10.1&lt;/address&gt;
+             &lt;mask&gt;255.255.255.251&lt;/mask&gt;
+         &lt;/aggregate-address&gt;
+         &lt;/bgp&gt;
+     &lt;/router&gt;
+     &lt;/config&gt;
+ &lt;/device&gt;
+ &lt;/devices&gt;
+ &lt;/config&gt;
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="robust-model-driven-apis">
+<h1>Robust Model-Driven APIs<a class="headerlink" href="#robust-model-driven-apis" title="Permalink to this headline">¶</a></h1>
+<p>Lorem Ipsem</p>
+<p>Access or change any device’s pre-parsed configuration remotely using the RESTful API:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="se">\</span>
 http://127.0.0.1:8080/restconf/data/tailf-ncs:devices/device<span class="o">=</span>ios-netsim-0 <span class="se">\</span>
 -H <span class="s1">&#39;Accept: application/yang-data+json&#39;</span> <span class="se">\</span>
@@ -286,6 +325,18 @@ http://127.0.0.1:8080/restconf/data/tailf-ncs:devices/device<span class="o">=</s
         <span class="o">}</span>,
 </pre></div>
 </div>
+<p>You can Create, Read, Update or Delete any configuration on any device Cisco NSO manages. For example, this script uses the Cisco IOS data model on a legacy CLI device and prints the precise data requested, no RegEx needed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
+    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">0</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="bp">None</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="bp">None</span> <span class="bp">None</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">100</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Mgmt</span> <span class="n">IP</span> <span class="kn">from</span> <span class="nn">NSO</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.3</span><span class="o">.</span><span class="mf">3.3</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">200</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Also</span> <span class="n">Modified</span> <span class="n">By</span> <span class="n">User</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.2</span><span class="o">.</span><span class="mf">2.5</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
@@ -297,9 +348,12 @@ http://127.0.0.1:8080/restconf/data/tailf-ncs:devices/device<span class="o">=</s
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quick_start/index.html">Quick Start</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#full-installation">Full installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#os-package-managers">OS Package Managers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#creating-netsims">Creating Netsims</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api/index.html">Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api/index.html#lorem-ipsum">Lorem Ipsum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api/index.html#lorem-example">lorem example</a></li>
 </ul>
 </li>
 </ul>

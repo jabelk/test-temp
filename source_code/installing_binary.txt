@@ -1,13 +1,13 @@
 Downloads$ mv nso-5.2.1.darwin.x86_64.installer.bin $HOME
 Downloads$ cd $HOME
-~$ sh nso-5.2.1.darwin.x86_64.installer.bin $HOME/nso-5.2.1
-INFO  Using temporary directory /var/folders/xt/j6zzjc2s3mx61fj9yxlrpk1m0000gn/T//ncs_installer.35610 to stage NCS installation bundle
-INFO  Unpacked ncs-5.2.1 in /Users/jabelk/nso-5.2.1
+~$ sh nso-5.2.1.darwin.x86_64.installer.bin $HOME/nso-5.2
+INFO  Using temporary directory /var/folders/xt/j6zzjc2s3mx61fj9yxlrpk1m0000gn/T//ncs_installer.37346 to stage NCS installation bundle
+INFO  Unpacked ncs-5.2.1 in /Users/jabelk/nso-5.2
 INFO  Found and unpacked corresponding DOCUMENTATION_PACKAGE
 INFO  Found and unpacked corresponding EXAMPLE_PACKAGE
 INFO  Generating default SSH hostkey (this may take some time)
 INFO  SSH hostkey generated
-INFO  Environment set-up generated in /Users/jabelk/nso-5.2.1/ncsrc
+INFO  Environment set-up generated in /Users/jabelk/nso-5.2/ncsrc
 INFO  NSO installation script finished
 INFO  Found and unpacked corresponding NETSIM_PACKAGE
 INFO  NCS installation complete

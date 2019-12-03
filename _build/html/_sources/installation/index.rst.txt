@@ -39,7 +39,7 @@ Unpacking the NSO installer is performed by executing the downloaded distributio
 
 .. literalinclude:: ../source_code/unpacking_binary.txt
    :language: bash
-   :emphasize-lines: 1,14
+   :emphasize-lines: 1,11,14
    :linenos:
 
 
