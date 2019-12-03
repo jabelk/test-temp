@@ -1,9 +1,61 @@
 Installation
 ============
 
+Installation Types
+------------------
 
-Full installation
------------------
+Installation can be performed in two ways.
+
+#. Local Install for evaluation and development.
+
+#. System Install for production deployment.
+
+
+
+System Requirements
+-------------------
+
+NSO requires a standard **Linux** or **Mac OS X** x86 physical/virtual machine or container. 
+
+- Testing / Evaluation (<50 devices) (at least 1 Core CPU and 8 GB RAM)
+
+- Medium (< 1000 devices): 4 Core CPU and 32 GB RAM
+
+- Large (> 1000 devices): 8 Core CPU and 64 BG RAM
+
+
+Downloading and Extracting Installer from Signed Binary 
+-------------------------------------------------------
+
+Download the NSO application installer here (CCO required):
+https://developer.cisco.com/docs/nso/#!getting-nso/downloads
+
+
+The NSO installation is delivered with a cryptographic signature to make it possible to verify that the installation has not been altered or corrupted. This can be guaranteed since the signature was created by using a combination of cryptographic hash and public key encryption.
+
+
+Unpacking the NSO installer is performed by executing the downloaded distribution using a command like (which may take a minute or two): 
+
+
+.. literalinclude:: ../source_code/unpacking_binary.txt
+   :language: bash
+   :emphasize-lines: 1,14
+   :linenos:
+
+
+You will now have the installer binary ( **nso-5.2.1.darwin.x86_64.installer.bin** for example), use it going forward, not the other files which are created. 
+
+
+.. literalinclude:: ../source_code/installing_binary.txt
+   :language: bash
+   :emphasize-lines: 1-3,10
+   :linenos:
+
+
+The variables in the command VERSION refers to the NSO version to install, OS refers to the Operating System (linux for any Linux distribution and darwin for OS X) and ARCH refers to the CPU architecture
+
+
+
 
 You can install napalm with pip:
 
@@ -39,7 +91,7 @@ Dependencies
 Although dependencies for the transport libraries are solved by ``pip``, on some operating systems there are some particular requirements:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    1
    2

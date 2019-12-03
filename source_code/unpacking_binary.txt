@@ -1,0 +1,15 @@
+   Downloads$ sh nso-5.2.1.darwin.x86_64.signed.bin
+   Unpacking...
+   Verifying signature...
+   Downloading CA certificate from http://www.cisco.com/security/pki/certs   crcam2.cer ...
+   Successfully downloaded and verified crcam2.cer.
+   Downloading SubCA certificate from http://www.cisco.com/security/pki   certs/innerspace.cer ...
+   Successfully downloaded and verified innerspace.cer.
+   Successfully verified root, subca and end-entity certificate chain.
+   Successfully fetched a public key from tailf.cer.
+   Successfully verified the signature of   nso-5.2.1.darwin.x86_64.installer.bin using tailf.cer
+   Downloads$ ls | grep nso-
+   nso-5.2.1.darwin.x86_64.installer.bin
+   nso-5.2.1.darwin.x86_64.installer.bin.signature
+   nso-5.2.1.darwin.x86_64.signed.bin
+   Downloads$

@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="napalm-ios dependencies" href="1.html" />
-    <link rel="prev" title="Welcome to NAPALM’s documentation!" href="../index.html" /> 
+    <link rel="prev" title="Welcome to Cisco NSO documentation!" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,7 +82,9 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#full-installation">Full installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-types">Installation Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-and-extracting-installer-from-signed-binary">Downloading and Extracting Installer from Signed Binary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#os-package-managers">OS Package Managers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#freebsd">FreeBSD</a></li>
 </ul>
@@ -94,6 +96,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/index.html">Quick Start</a></li>
 </ul>
 
             
@@ -160,8 +163,93 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="full-installation">
-<h2>Full installation<a class="headerlink" href="#full-installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation-types">
+<h2>Installation Types<a class="headerlink" href="#installation-types" title="Permalink to this headline">¶</a></h2>
+<p>Installation can be performed in two ways.</p>
+<ol class="arabic simple">
+<li><p>Local Install for evaluation and development.</p></li>
+<li><p>System Install for production deployment.</p></li>
+</ol>
+</div>
+<div class="section" id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<p>NSO requires a standard <strong>Linux</strong> or <strong>Mac OS X</strong> x86 physical/virtual machine or container.</p>
+<ul class="simple">
+<li><p>Testing / Evaluation (&lt;50 devices) (at least 1 Core CPU and 8 GB RAM)</p></li>
+<li><p>Medium (&lt; 1000 devices): 4 Core CPU and 32 GB RAM</p></li>
+<li><p>Large (&gt; 1000 devices): 8 Core CPU and 64 BG RAM</p></li>
+</ul>
+</div>
+<div class="section" id="downloading-and-extracting-installer-from-signed-binary">
+<h2>Downloading and Extracting Installer from Signed Binary<a class="headerlink" href="#downloading-and-extracting-installer-from-signed-binary" title="Permalink to this headline">¶</a></h2>
+<p>Download the NSO application installer here (CCO required):
+<a class="reference external" href="https://developer.cisco.com/docs/nso/#!getting-nso/downloads">https://developer.cisco.com/docs/nso/#!getting-nso/downloads</a></p>
+<p>The NSO installation is delivered with a cryptographic signature to make it possible to verify that the installation has not been altered or corrupted. This can be guaranteed since the signature was created by using a combination of cryptographic hash and public key encryption.</p>
+<p>Unpacking the NSO installer is performed by executing the downloaded distribution using a command like (which may take a minute or two):</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="hll">   Downloads$ sh nso-5.2.1.darwin.x86_64.signed.bin
+</span>   Unpacking...
+   Verifying signature...
+   Downloading CA certificate from http://www.cisco.com/security/pki/certs   crcam2.cer ...
+   Successfully downloaded and verified crcam2.cer.
+   Downloading SubCA certificate from http://www.cisco.com/security/pki   certs/innerspace.cer ...
+   Successfully downloaded and verified innerspace.cer.
+   Successfully verified root, subca and end-entity certificate chain.
+   Successfully fetched a public key from tailf.cer.
+   Successfully verified the signature of   nso-5.2.1.darwin.x86_64.installer.bin using tailf.cer
+   Downloads$ ls <span class="p">|</span> grep nso-
+   nso-5.2.1.darwin.x86_64.installer.bin
+   nso-5.2.1.darwin.x86_64.installer.bin.signature
+<span class="hll">   nso-5.2.1.darwin.x86_64.signed.bin
+</span>   Downloads$
+</pre></div>
+</td></tr></table></div>
+<p>You will now have the installer binary ( <strong>nso-5.2.1.darwin.x86_64.installer.bin</strong> for example), use it going forward, not the other files which are created.</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="hll">Downloads$ mv nso-5.2.1.darwin.x86_64.installer.bin <span class="nv">$HOME</span>
+</span><span class="hll">Downloads$ <span class="nb">cd</span> <span class="nv">$HOME</span>
+</span><span class="hll">~$ sh nso-5.2.1.darwin.x86_64.installer.bin <span class="nv">$HOME</span>/nso-5.2.1
+</span>INFO  Using temporary directory /var/folders/xt/j6zzjc2s3mx61fj9yxlrpk1m0000gn/T//ncs_installer.35610 to stage NCS installation bundle
+INFO  Unpacked ncs-5.2.1 in /Users/jabelk/nso-5.2.1
+INFO  Found and unpacked corresponding DOCUMENTATION_PACKAGE
+INFO  Found and unpacked corresponding EXAMPLE_PACKAGE
+INFO  Generating default SSH hostkey <span class="o">(</span>this may take some <span class="nb">time</span><span class="o">)</span>
+INFO  SSH hostkey generated
+<span class="hll">INFO  Environment set-up generated in /Users/jabelk/nso-5.2.1/ncsrc
+</span>INFO  NSO installation script finished
+INFO  Found and unpacked corresponding NETSIM_PACKAGE
+INFO  NCS installation <span class="nb">complete</span>
+
+~$
+</pre></div>
+</td></tr></table></div>
+<p>The variables in the command VERSION refers to the NSO version to install, OS refers to the Operating System (linux for any Linux distribution and darwin for OS X) and ARCH refers to the CPU architecture</p>
 <p>You can install napalm with pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install napalm
 </pre></div>
@@ -187,8 +275,16 @@
 <p>Although dependencies for the transport libraries are solved by <code class="docutils literal notranslate"><span class="pre">pip</span></code>, on some operating systems there are some particular requirements:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="1.html">napalm-ios dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.html">napalm-ios dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.html">napalm-ios dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="1.html#ubuntu-and-debian">Ubuntu and Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.html#redhat-and-centos">RedHat and CentOS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="2.html">napalm-ios dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="2.html#ubuntu-and-debian">Ubuntu and Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html#redhat-and-centos">RedHat and CentOS</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -205,7 +301,7 @@
         <a href="1.html" class="btn btn-neutral float-right" title="napalm-ios dependencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to NAPALM’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Cisco NSO documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
