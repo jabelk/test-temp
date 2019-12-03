@@ -14,7 +14,6 @@ Lorem ipsum:
 
 
 
-
 .. toctree::
    :maxdepth: 3
 
