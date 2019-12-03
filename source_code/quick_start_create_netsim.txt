@@ -5,3 +5,611 @@ cisco-ios-cli-3.0/   cisco-ios-cli-3.8/   cisco-iosxr-cli-3.0/ cisco-iosxr-cli-3
 nso-quick-start$ ncs-netsim create-network /Users/jabelk/nso-5.2/packages/neds/cisco-ios-cli-3.8 1 ios-netsim-
 DEVICE ios-netsim-0 CREATED
 nso-quick-start$
+
+
+
+nso-quick-start$ ncs_cli -C -u admin
+
+admin connected from 127.0.0.1 using console on ntc-jasonbelk-macbook-pro.local
+admin@ncs# show devices list
+NAME          ADDRESS    DESCRIPTION  NED ID             ADMIN STATE
+--------------------------------------------------------------------
+ios-netsim-0  127.0.0.1  -            cisco-ios-cli-3.8  unlocked
+admin@ncs#
+admin@ncs#
+admin@ncs# show running-config devices device ios-netsim-0 config
+devices device ios-netsim-0
+ config
+  no ios:service password-encryption
+  no ios:cable admission-control preempt priority-voice
+  no ios:cable qos permission create
+  no ios:cable qos permission update
+  no ios:cable qos permission modems
+  ios:ip source-route
+  no ios:ip cef
+  no ios:ip forward-protocol nd
+  no ios:ipv6 source-route
+  no ios:ipv6 cef
+ !
+!
+admin@ncs# devices device ios-netsim-0 sync-from
+result true
+admin@ncs# show running-config devices device ios-netsim-0 config
+devices device ios-netsim-0
+ config
+  ios:tailfned device netsim
+  ios:tailfned police cirmode
+  no ios:service password-encryption
+  no ios:cable admission-control preempt priority-voice
+  no ios:cable qos permission create
+  no ios:cable qos permission update
+  no ios:cable qos permission modems
+  ios:ip source-route
+  no ios:ip cef
+  ios:ip vrf my-forward
+   bgp next-hop Loopback1
+  !
+  no ios:ip forward-protocol nd
+  no ios:ip http server
+  no ios:ip http secure-server
+  ios:ip community-list 1 permit
+  ios:ip community-list 2 deny
+  ios:ip community-list standard s permit
+  no ios:ipv6 source-route
+  no ios:ipv6 cef
+  ios:class-map match-all a
+  !
+  ios:class-map match-all cmap1
+   match mpls experimental topmost 1
+   match packet length max 255
+   match packet length min 2
+   match qos-group 1
+  !
+  ios:policy-map a
+  !
+  ios:policy-map map1
+   class c1
+    drop
+    estimate bandwidth delay-one-in 500 milliseconds 100
+    priority percent 33
+   !
+  !
+  ios:interface Loopback0
+   no shutdown
+  exit
+  ios:interface FastEthernet0/0
+   no shutdown
+  exit
+  ios:interface FastEthernet1/0
+   no shutdown
+  exit
+  ios:interface FastEthernet1/1
+   no shutdown
+  exit
+  no ios:spanning-tree optimize bpdu transmission
+  ios:router bgp 64512
+   aggregate-address 10.10.10.1 255.255.255.251
+  !
+ !
+!
+admin@ncs#
+admin@ncs# devices device ios-netsim-0 live-status exec show version
+result
+Cisco IOS Software, NETSIM
+ios-netsim-0#
+admin@ncs#
+admin@ncs#
+admin@ncs#
+admin@ncs# config
+Entering configuration mode terminal
+admin@ncs(config)# devices device ?
+This line doesn't have a valid range expression
+Possible completions:
+  A string uniquely identifying the managed device  ios-netsim-0  range
+admin@ncs(config)# devices device ios-netsim-0 config
+admin@ncs(config-config)# ios:?
+Possible completions: (first 100)
+  ios:aaa                         Authentication, Authorization and Accounting.
+  ios:access-list                 Add an access list entry
+  ios:alarm-contact               Configure the system alarm contact settings
+  ios:alias
+
+
+admin@ncs(config-config)# ios:interface Loopback 100
+admin@ncs(config-if)# description Created by NSO CLI
+admin@ncs(config-if)# ip address 10.0.0.5 255.255.255.0
+admin@ncs(config-if)# no shutdown
+admin@ncs(config-if)#
+admin@ncs(config-if)# exit
+admin@ncs(config-config)# ios:interface Loopback 200
+admin@ncs(config-if)# description Second Loopback By NSO
+admin@ncs(config-if)# ip address 10.1.1.5 255.255.255.0
+admin@ncs(config-if)#
+admin@ncs(config-if)#
+admin@ncs(config-if)# commit dry-run outformat native
+native {
+    device {
+        name ios-netsim-0
+        data interface Loopback100
+              description Created by NSO CLI
+              ip address 10.0.0.5 255.255.255.0
+              no shutdown
+             exit
+             interface Loopback200
+              description Second Loopback By NSO
+              ip address 10.1.1.5 255.255.255.0
+              no shutdown
+             exit
+    }
+}
+admin@ncs(config-if)# commit dry-run outformat ?
+Possible completions:
+  cli  native  xml
+admin@ncs(config-if)# commit dry-run outformat cli
+cli {
+    local-node {
+        data  devices {
+                  device ios-netsim-0 {
+                      config {
+                          ios:interface {
+             +                Loopback 100 {
+             +                    description "Created by NSO CLI";
+             +                    ip {
+             +                        address {
+             +                            primary {
+             +                                address 10.0.0.5;
+             +                                mask 255.255.255.0;
+             +                            }
+             +                        }
+             +                    }
+             +                }
+             +                Loopback 200 {
+             +                    description "Second Loopback By NSO";
+             +                    ip {
+             +                        address {
+             +                            primary {
+             +                                address 10.1.1.5;
+             +                                mask 255.255.255.0;
+             +                            }
+             +                        }
+             +                    }
+             +                }
+                          }
+                      }
+                  }
+              }
+    }
+}
+admin@ncs(config-if)#
+admin@ncs(config-if)# commit
+Commit complete.
+admin@ncs(config-if)#
+
+
+## verify netsim config
+
+
+ios-netsim-0# show running-config | begin interface
+interface Loopback0
+ no shutdown
+exit
+interface Loopback100
+ description Created by NSO CLI
+ no shutdown
+ ip address 10.0.0.5 255.255.255.0
+exit
+interface Loopback200
+ description Second Loopback By NSO
+ no shutdown
+ ip address 10.1.1.5 255.255.255.0
+exit
+interface FastEthernet0/0
+ no shutdown
+exit
+interface FastEthernet1/0
+ no shutdown
+exit
+interface FastEthernet1/1
+ no shutdown
+exit
+no spanning-tree optimize bpdu transmission
+router bgp 64512
+ aggregate-address 10.10.10.1 255.255.255.251
+!
+ios-netsim-0#
+
+
+
+## rollback config
+
+
+
+admin@ncs(config-if)#
+admin@ncs(config-if)# end
+admin@ncs(config)# rollback ?
+Possible completions:
+  configuration   Roll back database to last committed version
+  selective       Apply a single rollback delta
+admin@ncs(config)# rollback configuration ?
+Possible completions:
+  10001   2019-12-02 13:52:52 by system via system
+  10002   2019-12-02 13:54:40 by admin via cli
+  10003   2019-12-02 14:17:09 by admin via cli
+  <cr>    latest
+admin@ncs(config)# rollback configuration
+admin@ncs(config)# commit dry-run outformat native
+native {
+    device {
+        name ios-netsim-0
+        data no interface Loopback100
+             no interface Loopback200
+    }
+}
+admin@ncs(config)# commit dry-run outformat cli
+cli {
+    local-node {
+        data  devices {
+                  device ios-netsim-0 {
+                      config {
+                          ios:interface {
+             -                Loopback 100 {
+             -                    description "Created by NSO CLI";
+             -                    ip {
+             -                        address {
+             -                            primary {
+             -                                address 10.0.0.5;
+             -                                mask 255.255.255.0;
+             -                            }
+             -                        }
+             -                    }
+             -                }
+             -                Loopback 200 {
+             -                    description "Second Loopback By NSO";
+             -                    ip {
+             -                        address {
+             -                            primary {
+             -                                address 10.1.1.5;
+             -                                mask 255.255.255.0;
+             -                            }
+             -                        }
+             -                    }
+             -                }
+                          }
+                      }
+                  }
+              }
+    }
+}
+admin@ncs(config)#
+admin@ncs(config)#
+admin@ncs(config)# commit
+Commit complete.
+admin@ncs(config)# devices check-sync
+sync-result {
+    device ios-netsim-0
+    result in-sync
+}
+
+
+## OOB modifications with netsim
+
+
+
+ios-netsim-0# conf
+Enter configuration commands, one per line. End with CNTL/Z.
+ios-netsim-0(config)# interface Loopback 100
+ios-netsim-0(config-if)# description Modified by User
+ios-netsim-0(config-if)# ip address 10.0.0.7 255.255.255.0
+ios-netsim-0(config-if)#
+ios-netsim-0(config-if)# exit
+ios-netsim-0(config)# interface Loopback 200
+ios-netsim-0(config-if)# description Also Modified By User
+ios-netsim-0(config-if)# ip
+  ip     Interface Internet Protocol config commands
+  ipv6   IPv6 interface subcommands
+ios-netsim-0(config-if)# ip
+  access-group         Specify access control for packets
+  accounting           Enable IP accounting on this interface
+  address              Set the IP address of an interface
+  dhcp                 Configure DHCP parameters for this interface
+  directed-broadcast   Enable forwarding of directed broadcasts
+  flow                 NetFlow related commands
+  helper-address       Specify a destination address for UDP broadcasts
+  igmp                 IGMP interface commands
+  mobile               Mobile IP support
+  mtu                  Set IP Maximum Transmission Unit
+  multicast            IP multicast interface commands
+  nat                  NAT interface commands
+  nhrp                 NHRP interface subcommands
+  ospf                 OSPF interface commands
+  pim                  PIM interface commands
+  policy               Enable policy routing
+  proxy-arp            Enable proxy ARP
+  redirects            Enable sending ICMP Redirect messages
+  rip                  Router Information Protocol
+  route-cache          Enable fast-switching cache for outgoing packets
+  router               IP router interface commands
+  rsvp                 RSVP Interface Commands
+  rtp                  RTP parameters
+  tcp                  TCP header compression and other parameters
+  unnumbered           Enable IP processing without an explicit address
+  unreachables         Enable sending ICMP Unreachable messages
+  verify               Enable per packet validation
+  virtual-reassembly   Enable Virtual Fragment Reassembly
+  vrf                  VPN Routing/Forwarding parameters on the interface
+ios-netsim-0(config-if)# ip address 10.2.2.5 255.255.255.0
+ios-netsim-0(config-if)#
+ios-netsim-0(config-if)#
+ios-netsim-0(config-if)# end
+ios-netsim-0# copy running-config startup-config
+
+
+## NSO Check sync and sync from
+
+
+
+
+
+admin@ncs(config)# devices check-sync
+sync-result {
+    device ios-netsim-0
+    result out-of-sync
+    info got: 2068e87cd6a6fc7eefeb34247dbf6069 expected: 70843a5705b0dc4c45d2014ca27cef67
+
+}
+admin@ncs(config)# *** ALARM out-of-sync: got: 2068e87cd6a6fc7eefeb34247dbf6069 expected: 70843a5705b0dc4c45d2014ca27cef67
+
+admin@ncs(config)# devices check-sync ?
+Possible completions:
+  device                     Only check-sync these devices.
+  no-wait-for-lock           The action can't be performed while the device is being committed to (or waiting in the
+                             commit queue).
+  suppress-positive-result   Use this additional parameter to only return devices not in sync.
+  wait-for-lock              The action can't be performed while the device is being committed to (or waiting in the
+                             commit queue).
+  <cr>
+admin@ncs(config)# devices sync-from ?
+Possible completions:
+  device                     Only sync from these devices.
+  dry-run
+  no-wait-for-lock           The action can't be performed while the device is being committed to (or waiting in the
+                             commit queue).
+  suppress-positive-result   Use this additional parameter to only return devices that failed to sync.
+  verbose                    Use this to show additional parse information if supported by the NED.
+  wait-for-lock              The action can't be performed while the device is being committed to (or waiting in the
+                             commit queue).
+  <cr>
+admin@ncs(config)# devices sync-from dry-run ?
+Possible completions:
+  {
+admin@ncs(config)# devices sync-from dry-run { ?
+Possible completions:
+  outformat   Report what would be done towards CDB, without actually doing anything.
+  }
+admin@ncs(config)# devices sync-from dry-run { outformat ?
+Description: Report what would be done towards CDB, without
+actually doing anything.
+Possible completions:
+  cli   NCS CLI curly bracket format.
+  xml   NETCONF XML edit-config format, i.e., the edit-config that would be applied locally (at NCS) to get a config that
+        is equal to that of the managed device.
+admin@ncs(config)# devices sync-from dry-run { outformat cli ?
+Possible completions:
+  }
+admin@ncs(config)# devices sync-from dry-run { outformat cli }
+sync-result {
+    device ios-netsim-0
+    cli  config {
+              ios:interface {
+         +        Loopback 100 {
+         +            description "Modified by User";
+         +            ip {
+         +                address {
+         +                    primary {
+         +                        address 10.0.0.7;
+         +                        mask 255.255.255.0;
+         +                    }
+         +                }
+         +            }
+         +        }
+         +        Loopback 200 {
+         +            description "Also Modified By User";
+         +            ip {
+         +                address {
+         +                    primary {
+         +                        address 10.2.2.5;
+         +                        mask 255.255.255.0;
+         +                    }
+         +                }
+         +            }
+         +        }
+              }
+          }
+
+}
+admin@ncs(config)# devices sync-to dry-run { outformat cli }
+sync-result {
+    device ios-netsim-0
+    cli  config {
+              ios:interface {
+         -        Loopback 100 {
+         -            description "Modified by User";
+         -            ip {
+         -                address {
+         -                    primary {
+         -                        address 10.0.0.7;
+         -                        mask 255.255.255.0;
+         -                    }
+         -                }
+         -            }
+         -        }
+         -        Loopback 200 {
+         -            description "Also Modified By User";
+         -            ip {
+         -                address {
+         -                    primary {
+         -                        address 10.2.2.5;
+         -                        mask 255.255.255.0;
+         -                    }
+         -                }
+         -            }
+         -        }
+              }
+          }
+
+}
+admin@ncs(config)# devices sync-from
+sync-result {
+    device ios-netsim-0
+    result true
+}
+admin@ncs(config)# end
+admin@ncs# show running-config devices device ios-netsim-0 config | begin interface
+  ios:interface Loopback0
+   no shutdown
+  exit
+  ios:interface Loopback100
+   description Modified by User
+   ip address 10.0.0.7 255.255.255.0
+   no shutdown
+  exit
+  ios:interface Loopback200
+   description Also Modified By User
+   ip address 10.2.2.5 255.255.255.0
+   no shutdown
+  exit
+  ios:interface FastEthernet0/0
+   no shutdown
+  exit
+  ios:interface FastEthernet1/0
+   no shutdown
+  exit
+  ios:interface FastEthernet1/1
+   no shutdown
+  exit
+  no ios:spanning-tree optimize bpdu transmission
+  ios:router bgp 64512
+   aggregate-address 10.10.10.1 255.255.255.251
+  !
+ !
+!
+admin@ncs# 
+
+
+## Create template NSO config template simple with 1 var
+
+
+admin@ncs# conf
+Entering configuration mode terminal
+admin@ncs(config)# devices template ?
+Possible completions:
+  The name of a specific template configuration.
+admin@ncs(config)# devices template "Loopback 100 Template"
+admin@ncs(config-template-Loopback 100 Template)# ned-id ?
+Possible completions:
+  snmp  netconf  lsa-netconf  cisco-ios-cli-3.8
+admin@ncs(config-template-Loopback 100 Template)# ned-id cisco-ios-cli-3.8
+admin@ncs(config-ned-id-cisco-ios-cli-3.8)# config
+admin@ncs(config-config)# ios:interface Loopback 100
+admin@ncs(config-Loopback-100)# ip adddress $IP_ADDR 255.255.255.0
+admin@ncs(config-Loopback-100)# ip address primary address {$MGMT_IP} mask 255.255.255.0
+admin@ncs(config-Loopback-100)# description "Mgmt IP from NSO"
+admin@ncs(config-Loopback-100)# commit
+Commit complete.
+admin@ncs(config-Loopback-100)# exit
+admin@ncs(config-config)# end
+
+## apply template 
+
+
+admin@ncs# conf
+Entering configuration mode terminal
+admin@ncs(config)# devices device ios-netsim-0 apply-template ?
+Possible completions:
+  accept-empty-capabilities   Apply template to devices with no capabilities known
+  suppress-positive-result    Only return result if some error occurred
+  template-name
+  variable
+admin@ncs(config)# devices device ios-netsim-0 apply-template template-name ?
+Possible completions:
+  Loopback 100 Template
+admin@ncs(config)# devices device ios-netsim-0 apply-template template-name Loopback\ 100\ Template variable { name MGMT_IP value '10.3.3.3' }
+apply-template-result {
+    device ios-netsim-0
+    result ok
+}
+admin@ncs(config)# commit dry-run
+cli {
+    local-node {
+        data  devices {
+                  device ios-netsim-0 {
+                      config {
+                          ios:interface {
+                              Loopback 100 {
+             -                    description "Modified by User";
+             +                    description "Mgmt IP from NSO";
+                                  ip {
+                                      address {
+                                          primary {
+             -                                address 10.0.0.7;
+             +                                address 10.3.3.3;
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+    }
+}
+admin@ncs(config)# commit dry-run outformat
+Possible completions:
+  cli  native  xml
+admin@ncs(config)# commit dry-run outformat native
+native {
+    device {
+        name ios-netsim-0
+        data interface Loopback100
+              description Mgmt IP from NSO
+              ip address 10.3.3.3 255.255.255.0
+             exit
+    }
+}
+admin@ncs(config)# commit
+Commit complete.
+admin@ncs(config)#
+
+
+
+## verify template applied on netsim
+
+
+ios-netsim-0# show running-config | begin interface
+interface Loopback0
+ no shutdown
+exit
+interface Loopback100
+ description Mgmt IP from NSO
+ no shutdown
+ ip address 10.3.3.3 255.255.255.0
+exit
+interface Loopback200
+ description Also Modified By User
+ no shutdown
+ ip address 10.2.2.5 255.255.255.0
+exit
+interface FastEthernet0/0
+ no shutdown
+exit
+interface FastEthernet1/0
+ no shutdown
+exit
+interface FastEthernet1/1
+ no shutdown
+exit
+no spanning-tree optimize bpdu transmission
+router bgp 64512
+ aggregate-address 10.10.10.1 255.255.255.251
+!
+ios-netsim-0#
