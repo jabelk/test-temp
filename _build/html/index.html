@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to Cisco NSO documentation! &mdash; Cisco NSO 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Cisco NSO
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start/index.html">Quick Start</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Cisco NSO</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to Cisco NSO documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-cisco-nso-documentation">
+<h1>Welcome to Cisco NSO documentation!<a class="headerlink" href="#welcome-to-cisco-nso-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
+<span class="hll">    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
+</span><span class="hll">        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
+</span></pre></div>
+</td></tr></table></div>
+<p>Creating and configuring network services is a complex task that often requires multiple configuration changes to all devices participating in the service.</p>
+<p>Additionally changes generally need to be made concurrently across all devices with the changes being either completely successful or rolled back to the starting configuration.</p>
+<p>And configuration need to be kept in sync across the system and the network devices. NSO approaches these challenges by acting as interface between people or software that want to configure the network, and the devices in the network.
+The key features of NSO that comes into play includes:</p>
+<ol class="arabic simple">
+<li><p>Multi-vendor device configuration management using the native protocols of the network devices.</p></li>
+<li><p>A Configuration Database (CDB) managing synchronized configurations for all devices and services in the network domain.</p></li>
+<li><p>A set of northbound interfaces including human interfaces like web UI and a CLI; programmable interfaces including RESTCONF, NETCONF, JSON-RPC; and language bindings including Java, Python and Erlang.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/nso_arch.png"><img alt="alternate text" class="align-center" src="_images/nso_arch.png" style="width: 472.0px; height: 349.0px;" /></a>
+<div class="section" id="supported-network-operating-systems">
+<h2>Supported Network Operating Systems:<a class="headerlink" href="#supported-network-operating-systems" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Arista EOS</p></li>
+<li><p>Cisco IOS</p></li>
+<li><p>Cisco IOS-XR</p></li>
+<li><p>Cisco NX-OS</p></li>
+<li><p>Juniper JunOS</p></li>
+</ul>
+<div class="section" id="extras">
+<h3>Extras<a class="headerlink" href="#extras" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the core drivers napalm also supports community driven drivers. You can find more information about them here:</p>
+</div>
+</div>
+<div class="section" id="selecting-the-right-driver">
+<h2>Selecting the right driver<a class="headerlink" href="#selecting-the-right-driver" title="Permalink to this headline">¶</a></h2>
+<p>You can select the driver you need by doing the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maapi</span><span class="o">.</span><span class="n">single_write_trans</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ncs</span><span class="o">.</span><span class="n">maagic</span><span class="o">.</span><span class="n">get_root</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="s2">&quot;ios-netsim-0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">config</span>
+    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">device</span><span class="o">.</span><span class="n">interface</span><span class="p">[</span><span class="s2">&quot;Loopback&quot;</span><span class="p">]:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This device has interface Loopback {} with a description of {}, and an IP address and mask of {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">interface</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">0</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="bp">None</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="bp">None</span> <span class="bp">None</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">100</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Mgmt</span> <span class="n">IP</span> <span class="kn">from</span> <span class="nn">NSO</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.3</span><span class="o">.</span><span class="mf">3.3</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
+<span class="n">This</span> <span class="n">device</span> <span class="n">has</span> <span class="n">interface</span> <span class="n">Loopback</span> <span class="mi">200</span> <span class="k">with</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">Also</span> <span class="n">Modified</span> <span class="n">By</span> <span class="n">User</span><span class="p">,</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">IP</span> <span class="n">address</span> <span class="ow">and</span> <span class="n">mask</span> <span class="n">of</span> <span class="mf">10.2</span><span class="o">.</span><span class="mf">2.5</span> <span class="mf">255.255</span><span class="o">.</span><span class="mf">255.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="se">\</span>
+http://127.0.0.1:8080/restconf/data/tailf-ncs:devices/device<span class="o">=</span>ios-netsim-0 <span class="se">\</span>
+-H <span class="s1">&#39;Accept: application/yang-data+json&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Authorization: Basic YWRtaW46YWRtaW4=&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Postman-Token: 4be02b66-7b02-470a-9508-943e40a1bf16&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;cache-control: no-cache&#39;</span>
+
+<span class="o">{</span>
+<span class="s2">&quot;tailf-ncs:device&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;ios-netsim-0&quot;</span>,
+    <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;127.0.0.1&quot;</span>,
+    <span class="s2">&quot;port&quot;</span>: <span class="m">10022</span>,
+    ...
+        <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
+        ...
+            <span class="s2">&quot;community-list&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;number-standard&quot;</span>: <span class="o">[</span>
+                <span class="o">{</span>
+                <span class="s2">&quot;no&quot;</span>: <span class="m">1</span>,
+                <span class="s2">&quot;permit&quot;</span>: <span class="o">{</span>
+                <span class="o">}</span>
+                <span class="o">}</span>,
+                <span class="o">{</span>
+        <span class="s2">&quot;tailf-ned-cisco-ios:interface&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;Loopback&quot;</span>: <span class="o">[</span>
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;0&quot;</span>
+            <span class="o">}</span>,
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;100&quot;</span>,
+                <span class="s2">&quot;description&quot;</span>: <span class="s2">&quot;Mgmt IP from NSO&quot;</span>,
+                <span class="s2">&quot;ip&quot;</span>: <span class="o">{</span>
+                <span class="s2">&quot;address&quot;</span>: <span class="o">{</span>
+                    <span class="s2">&quot;primary&quot;</span>: <span class="o">{</span>
+                    <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;10.3.3.3&quot;</span>,
+                    <span class="s2">&quot;mask&quot;</span>: <span class="s2">&quot;255.255.255.0&quot;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>,
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;200&quot;</span>,
+                <span class="s2">&quot;description&quot;</span>: <span class="s2">&quot;Also Modified By User&quot;</span>,
+                <span class="s2">&quot;ip&quot;</span>: <span class="o">{</span>
+                <span class="s2">&quot;address&quot;</span>: <span class="o">{</span>
+                    <span class="s2">&quot;primary&quot;</span>: <span class="o">{</span>
+                    <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;10.2.2.5&quot;</span>,
+                    <span class="s2">&quot;mask&quot;</span>: <span class="s2">&quot;255.255.255.0&quot;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="o">]</span>,
+            <span class="s2">&quot;FastEthernet&quot;</span>: <span class="o">[</span>
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;0/0&quot;</span>
+            <span class="o">}</span>,
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;1/0&quot;</span>
+            <span class="o">}</span>,
+            <span class="o">{</span>
+                <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;1/1&quot;</span>
+            <span class="o">}</span>
+            <span class="o">]</span>
+        <span class="o">}</span>,
+        <span class="s2">&quot;tailf-ned-cisco-ios:spanning-tree&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;optimize&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;bpdu&quot;</span>: <span class="o">{</span>
+                <span class="s2">&quot;transmission&quot;</span>: <span class="nb">false</span>
+            <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>,
+        <span class="s2">&quot;tailf-ned-cisco-ios:router&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;bgp&quot;</span>: <span class="o">[</span>
+            <span class="o">{</span>
+                <span class="s2">&quot;as-no&quot;</span>: <span class="m">64512</span>,
+                <span class="s2">&quot;aggregate-address&quot;</span>: <span class="o">{</span>
+                <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;10.10.10.1&quot;</span>,
+                <span class="s2">&quot;mask&quot;</span>: <span class="s2">&quot;255.255.255.251&quot;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="o">]</span>
+        <span class="o">}</span>,
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#full-installation">Full installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#os-package-managers">OS Package Managers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start/index.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#full-installation">Full installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#os-package-managers">OS Package Managers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start/index.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation/index.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Tail-F
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
